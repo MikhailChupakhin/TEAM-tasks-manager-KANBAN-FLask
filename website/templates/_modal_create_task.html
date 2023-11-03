@@ -1,0 +1,35 @@
+<div class="modal fade none" id="ModalCreateTask" tabindex="-1" aria-labelledby="ModalCreateTask" aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalCreateTaskTitle">Создание задачи</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{{ url_for('task_manager.create_task', project_type=project.type, project_id=project.id) }}">
+                    {{ task_form.hidden_tag() }}
+                    <div class="form-group">
+                        {{ task_form.name.label(class="form-label") }}
+                        {{ task_form.name(class="form-control") }}
+                    </div>
+                    <div class="form-group">
+                        {{ task_form.description.label(class="form-label") }}
+                        {{ task_form.description(class="form-control") }}
+                    </div>
+                    <div class="form-group">
+                        {{ task_form.deadline.label(class="form-label") }}
+                        {{ task_form.deadline(class="form-control") }}
+                    </div>
+                    <div class="form-group">
+                        {{ task_form.responsible.label(class="form-label") }}
+                        {{ task_form.responsible(class="form-control") }}
+                    </div>
+                    {{ task_form.submit(class="btn btn-primary custom-submit-button") }}
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="closeTaskModalButton">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>

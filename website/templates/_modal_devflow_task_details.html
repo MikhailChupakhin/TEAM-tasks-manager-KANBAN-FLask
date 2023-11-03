@@ -1,0 +1,33 @@
+<div class="modal fade" id="devflowTaskDetailsModal" tabindex="-1" aria-labelledby="devflowTaskDetailsLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="devflowTaskDetailsLabel">Детали задачи</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            </div>
+            <div class="modal-body">
+                <p id="taskName"></p>
+                <p id="taskStatus"></p>
+                <p id="taskDescription"></p>
+                <div class="row">
+                    <div class="col-6">
+                        <div id="taskCommentsCount"></div>
+                    </div>
+                    <div class="col-6 d-flex justify-content-end">
+                        <button id="viewComment" class="btn btn-primary ml-auto">Показать</button>
+                    </div>
+                </div>
+                <div id="commentSection" style="display: none;">
+                    <textarea id="commentText" class="form-control" rows="3" placeholder="Введите комментарий"></textarea>
+                    <button id="sendComment" class="btn btn-primary" data-project-id="{{ project.id }}">Отправить</button>
+                    <button id="cancelComment" class="btn btn-secondary">Отменить</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="devflowTaskEditButton" data-project-id="{{ project.id }}">Редактировать</button>
+                <button type="button" class="btn btn-primary" id="commentButton" data-project-id="{{ project.id }}">Комментировать</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>

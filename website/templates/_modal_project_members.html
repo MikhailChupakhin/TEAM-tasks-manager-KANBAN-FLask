@@ -1,0 +1,38 @@
+<div class="modal" id="projectMembersModal" tabindex="-1" aria-labelledby="projectMembersModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="projectMembersModalLabel">Участники проекта</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            </div>
+            <div class="modal-body">
+                <p>Владелец проекта: {{ owner.username }} Email: {{ owner.email }}</p>
+                {% if project_members is not none %}
+                <p>Участники:</p>
+                <ul>
+                    {% for member in project_members %}
+                    <li>
+                        <div class="d-flex align-items-center">
+                            <div>
+                                {{ member[1] }} - {{ member[2] }}
+                            </div>
+                            {% if is_owner %}
+                            <form action="{{ url_for('task_manager.remove_from_project', project_id=project.id, member_id=member[0]) }}" method="post" onsubmit="return confirm('Вы уверены, что хотите исключить этого участника?');">
+                                {{ tm_remove_form.csrf_token }}
+                                <button type="submit" class="btn btn-danger">Исключить</button>
+                            </form>
+                            {% endif %}
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                    <p>Сейчас вы единственные участник проекта. Пригласите кого-нибудь.</p>
+                {% endif %}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,45 @@
+.label {
+    display: flex;
+    justify-content: space-between; /* Распределяет элементы по горизонтали */
+    align-items: center; /* Выравнивает элементы по вертикали */
+    padding: 10px; /* Добавляет отступы */
+}
+
+.description-button {
+    margin-left: auto; /* Перемещает кнопку "Описание" вправо */
+}
+
+.form-control.task-description {
+    height: 120px;
+    overflow: auto;
+    word-wrap: break-word;
+}
+.status-button {
+    display: inline-block;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.status-button-waiting {
+    background-color: #DC143C !important;
+    color: white;
+}
+
+.status-button-progress {
+    background-color: #FFD700 !important;
+    color: white;
+}
+
+.status-button-complete {
+    background-color: #006400 !important;
+    color: white;
+}
+
+.status-button-canceled {
+    background-color: gray !important;
+    color: white;
+}

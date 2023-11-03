@@ -1,0 +1,194 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Devflow: {{ project.name }}
+{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/devflow_project.css') }}">
+{% endblock %}
+
+{% block body %}
+<div class="container-main">
+    <div class="row">
+        <div class="col-md-6">
+            <h3>{{ project.name }}</h3>
+        </div>
+        <div class="col-md-3 text-end">
+            <button class="btn btn-primary rounded-pill px-3" type="button" id="createTaskModalButton">Добавить задачу
+            </button>
+        </div>
+        <div class="col-md-3">
+            <div class="dropdown text-start">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Меню проекта
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#" id="openProjectMembersModalButton">Участники</a>
+                    <a class="dropdown-item" href="#" id="createInviteModalButton" data-project-id="{{ project.id }}">Пригласить</a>
+                    <a class="dropdown-item" href="{{ url_for('task_manager.log', project_id=project.id) }}">Журнал</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <div class="block">
+                <h5 class="text-center">Waiting</h5>
+                <div class="status-change-zone text-center" id="ASSIGNED">ASSIGNED</div>
+                <div class="status-change-zone text-center" id="NEED SOME INFO">NEED SOME INFO</div>
+                <div class="card-container" id="waiting_tasks_container">
+                    {% set waiting_tasks = [] %}
+                    {% for task in tasks %}
+                    {% if task.status == 'NEW' %}
+                    {% set _ = waiting_tasks.append(task) %}
+                    {% endif %}
+                    {% endfor %}
+                    {% for task in tasks %}
+                    {% if task.status == 'ASSIGNED' %}
+                    {% set _ = waiting_tasks.append(task) %}
+                    {% endif %}
+                    {% endfor %}
+                    {% for task in tasks %}
+                    {% if task.status == 'NEED SOME INFO' %}
+                    {% set _ = waiting_tasks.append(task) %}
+                    {% endif %}
+                    {% endfor %}
+                    {% for task in waiting_tasks %}
+                    {% include '_devflow_task.html' %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="block">
+                <h5 class="text-center">In progress</h5>
+                <div class="status-change-zone text-center" id="IN PROGRESS">IN PROGRESS</div>
+                <div class="card-container" id="in_progress_container">
+                    {% for task in tasks if task.status == 'IN PROGRESS' %}
+                    {% include '_devflow_task.html' %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="block">
+                <h5 class="text-center">Deploying(TEST)</h5>
+                <div class="status-change-zone text-center" id="DEPLOYING(TEST)">DEPLOYING(TEST)</div>
+                <div class="card-container" id="deploying_test_container">
+                    {% for task in tasks if task.status == 'DEPLOYING(TEST)' %}
+                    {% include '_devflow_task.html' %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="block">
+                <h5 class="text-center">Testing</h5>
+                <div class="status-change-zone text-center" id="TESTING">TESTING</div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="status-change-zone text-center" id="TEST OK">TEST OK</div>
+                    </div>
+                    <div class="col-6">
+                        <div class="status-change-zone text-center" id="TEST FAILED">TEST FAILED</div>
+                    </div>
+                </div>
+                <div class="card-container" id="testing_container">
+                    {% set testing_tasks = [] %}
+                    {% for task in tasks %}
+                    {% if task.status == 'TESTING' %}
+                    {% set _ = testing_tasks.append(task) %}
+                    {% endif %}
+                    {% endfor %}
+                    {% for task in tasks %}
+                    {% if task.status == 'TEST FAILED' %}
+                    {% set _ = testing_tasks.append(task) %}
+                    {% endif %}
+                    {% endfor %}
+                    {% for task in tasks %}
+                    {% if task.status == 'TEST OK' %}
+                    {% set _ = testing_tasks.append(task) %}
+                    {% endif %}
+                    {% endfor %}
+                    {% for task in testing_tasks %}
+                    {% include '_devflow_task.html' %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="block">
+                <h5 class="text-center">Deploying</h5>
+                <div class="status-change-zone text-center" id="DEPLOYING">DEPLOYING</div>
+                <div class="status-change-zone text-center" id="DEPLOY FAILED">DEPLOYING FAILED</div>
+                <div class="card-container" id="deploying_container">
+                    {% set deploying_tasks = [] %}
+                    {% for task in tasks %}
+                    {% if task.status == 'DEPLOYING' %}
+                    {% set _ = deploying_tasks.append(task) %}
+                    {% endif %}
+                    {% endfor %}
+                    {% for task in tasks %}
+                    {% if task.status == 'DEPLOY FAILED' %}
+                    {% set _ = deploying_tasks.append(task) %}
+                    {% endif %}
+                    {% endfor %}
+                    {% for task in deploying_tasks %}
+                    {% include '_devflow_task.html' %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="block">
+                <h5 class="text-center">Closing</h5>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="status-change-zone text-center" id="DEPLOY OK">DEPLOY OK</div>
+                    </div>
+                    <div class="col-6">
+                        <div class="status-change-zone text-center" id="STABILITY">STABILITY</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="status-change-zone text-center" id="REJECT">REJECT</div>
+                    </div>
+                    <div class="col-6">
+                        <div class="status-change-zone text-center" id="CLOSED">CLOSED</div>
+                    </div>
+                </div>
+                <div class="card-container" id="completing_container">
+                    {% set completing_tasks = [] %}
+                    {% for task in tasks %}
+                    {% if task.status == 'DEPLOY OK' %}
+                    {% set _ = completing_tasks.append(task) %}
+                    {% endif %}
+                    {% endfor %}
+                    {% for task in tasks %}
+                    {% if task.status == 'STABILITY' %}
+                    {% set _ = completing_tasks.append(task) %}
+                    {% endif %}
+                    {% endfor %}
+                    {% for task in tasks %}
+                    {% if task.status == 'REJECT' %}
+                    {% set _ = completing_tasks.append(task) %}
+                    {% endif %}
+                    {% endfor %}
+                    {% for task in completing_tasks %}
+                    {% include '_devflow_task.html' %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% include '_modal_project_members.html' %}
+{% include '_modal_create_invite.html' %}
+{% include '_modal_create_task.html' %}
+{% include '_modal_devflow_task_details.html' %}
+{% include '_modal_edit_task.html' %}
+<script src="{{ url_for('static', filename='js/devflow_project_functionals.js') }}"></script>
+{% endblock %}

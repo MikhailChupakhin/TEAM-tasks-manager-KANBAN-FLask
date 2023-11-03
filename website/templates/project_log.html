@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Журнал - {{ project.name }}
+{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/project.css') }}">
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-9">
+            <h2>{{ project.name }} - журнал событий</h2>
+        </div>
+        <div>
+            {% for event in event_log %}
+                <li>{{ event }}</li>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

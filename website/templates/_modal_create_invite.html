@@ -1,0 +1,31 @@
+<div class="modal fade none" id="ModalCreateInvite" tabindex="-1" aria-labelledby="ModalCreateInvite" aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalCreateInviteTitle">Пригласить в проект</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{{ url_for('task_manager.invite', project_id=project.id) }}">
+                    {{ tm_invite_form.hidden_tag() }}
+                    <div class="form-group">
+                        {{ tm_invite_form.recipient.label(class="form-label") }}
+                        {{ tm_invite_form.recipient(class="form-control") }}
+                    </div>
+                    {% if project.type == 'basic' %}
+                    <div class="form-group role-field" style="display: none;">
+                        {{ tm_invite_form.role.label(class="form-label") }}
+                        {{ tm_invite_form.role(class="form-control") }}
+                    </div>
+                    {% else %}
+                    <div class="form-group role-field" style="display: block;">
+                        {{ tm_invite_form.role.label(class="form-label") }}
+                        {{ tm_invite_form.role(class="form-control") }}
+                    </div>
+                    {% endif %}
+                    {{ tm_invite_form.submit(class="btn btn-primary custom-submit-button") }}
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

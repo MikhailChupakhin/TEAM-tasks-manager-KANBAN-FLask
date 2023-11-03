@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Мой таск-менеджер
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+    <h1>Планировщик задач</h1>
+        <div class="row">
+            <div class="col-6">
+                <button class="btn btn-primary rounded-pill px-3" type="button" id="createProjectModalButton">Новый проект</button>
+            </div>
+            <div class="col-6 text-end">
+                <button class="btn btn-secondary rounded-pill px-3" type="button" id="openInvitationsModalButton">Приглашения ({{ pending_invitations_count }})</button>
+            </div>
+        </div>
+    <main>
+        {% if all_projects %}
+        <div class="album py-5 bg-light">
+            <div class="container">
+
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                    {% for project in all_projects %}
+                    <div class="col">
+                        <div class="card shadow-sm">
+                            <div class="card-header">
+                                <h3>{{ project.name }}</h3>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">Тип: {{ project.type }}</p>
+                                <p class="card-text">Нераспределенные задачи: {{ project.unattached_tasks_count }}</p>
+                                <p class="card-text">Активные задачи: {{ project.active_tasks_count }}</p>
+                                <p class="card-text">Выполненные задачи: {{ project.completed_tasks_count }}</p>
+
+                                <p class="card-text">Описание: {{ project.description }}</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        {% if project.type == 'basic' %}
+                                            <a href="{{ url_for('task_manager.basic_project', project_id=project.id) }}" class="btn btn-sm btn-outline-secondary">Открыть</a>
+                                        {% else %}
+                                            <a href="{{ url_for('task_manager.devflow_project', project_id=project.id) }}" class="btn btn-sm btn-outline-secondary">Открыть</a>
+                                        {% endif %}
+                                        {% if project.owner == current_user %}
+                                            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="confirmAction('delete', {{ project.id }})" data-csrf="{{ csrf_token }}">Удалить</button>
+                                        {% else %}
+                                            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="confirmAction('leave')">Покинуть</button>
+                                        {% endif %}
+                                    </div>
+                                    <small class="text-body-secondary">
+                                        {% if project.owner == current_user %}
+                                            Admin
+                                        {% endif %}
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% else %}
+            <p>Сейчас у Вас нет активных проектов. Нажмите на кнопку "Новый проект", чтобы создать собственный проект.
+               Если Вы хотите учавствовать в проекте другого пользователем - Вам требуется получить, а затем
+               подтвердить приглашение в меню "Приглашения". </p>
+        {% endif %}
+
+    </main>
+    {% include '_modal_create_project.html' %}
+    {% include '_modal_invitations.html' %}
+    <script src="{{ url_for('static', filename='js/tm_functionals.js') }}"></script>
+</div>
+{% endblock %}

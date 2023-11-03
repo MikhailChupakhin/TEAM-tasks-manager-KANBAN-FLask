@@ -1,0 +1,32 @@
+<div class="modal fade none" id="ModalCreateProject" tabindex="-1" aria-labelledby="ModalCreateProject"
+     aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalCreateProjectTitle">Создание проекта</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{{ url_for('task_manager.task_manager') }}">
+                    {{ project_form.hidden_tag() }}
+                    <div class="form-group">
+                        {{ project_form.name.label(class="form-label") }}
+                        {{ project_form.name(class="form-control") }}
+                    </div>
+                    <div class="form-group">
+                        {{ project_form.description.label(class="form-label") }}
+                        {{ project_form.description(class="form-control") }}
+                    </div>
+                    <div class="form-group">
+                        {{ project_form.type.label(class="form-label") }}
+                        {{ project_form.type(class="form-control") }}
+                    </div>
+                    {{ project_form.submit(class="btn btn-primary custom-submit-button") }}
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="closeModalButton">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>

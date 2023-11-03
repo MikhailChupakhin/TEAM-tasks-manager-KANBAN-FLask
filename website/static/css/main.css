@@ -1,0 +1,28 @@
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #007bff;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.container {
+    flex: 1;
+}
+/*footer {
+    margin-top: auto;
+}*/
+.top-navbar {
+    max-height: 100px;
+}
+
+
+/* TASK MANAGER */
+.custom-submit-button {
+    float: right;  /* Прижимаем к правому краю */
+    margin-top: 15px;  /* Добавляем отступ сверху 5 пикселей */
+}

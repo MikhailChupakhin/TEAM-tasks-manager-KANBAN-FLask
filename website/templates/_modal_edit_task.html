@@ -1,0 +1,43 @@
+<div class="modal fade none" id="ModalEditTask" tabindex="-1" aria-labelledby="ModalEditTask" aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalEditTaskTitle">Редактирование задачи</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeEditTaskIcon"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editTaskForm" method="POST" action="#">
+                    {{ task_edit_form.hidden_tag() }}
+                    <div class="form-group">
+                        {{ task_edit_form.name.label(class="form-label") }}
+                        <input type="text" class="form-control task-name">
+                    </div>
+                    <div class="form-group">
+                        {{ task_edit_form.description.label(class="form-label") }}
+                        <textarea class="form-control task-description" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        {{ task_edit_form.deadline.label(class="form-label") }}
+                        <input type="date" class="form-control task-deadline">
+                    </div>
+                    <div class="form-group">
+                        {{ task_edit_form.responsible.label(class="form-label") }}
+                        <select class="form-select task-responsible" id="taskResponsibleSelect" name="responsible">
+                            {% if project_members is not none %}
+                            {% for member in project_members %}
+                                {{ project_members }}
+                                <option value="{{ member[0] }}">{{ member[1] }}</option>
+                            {% endfor %}
+                            {% endif %}
+                            <option value="{{ owner.id }}">{{ owner.username }}</option>
+                        </select>
+                    </div>
+                    {{ task_edit_form.submit(class="btn btn-primary custom-submit-button") }}
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="closeEditTaskModalButton">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="csrf-token" content="{{ csrf_token }}">
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1">-->
+    <title>{% block title %}{% endblock %}</title>
+    {% block styles %}{% endblock %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap/bootstrap.css') }}">
+</head>
+<body>
+    <div class="container top-navbar">
+        <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-1 mb-1 border-bottom">
+          <div class="col-md-3 mb-2 mb-md-0 d-flex justify-content-end">
+            <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none logo">
+              Task-Manager
+            </a>
+          </div>
+
+          <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+              {% if session.user_id %}
+                  <li><a href="/" class="nav-link px-2 link-secondary">Главная</a></li>
+                  <li><a href="/about" class="nav-link px-2">О сайте</a></li>
+                  <li>
+                      <a class="nav-link px-2" href="#" data-bs-toggle="dropdown">Меню</a>
+                      <ul class="dropdown-menu">
+                          <li><a class="dropdown-item rounded-2" href="{{ url_for('task_manager.task_manager') }}">Планировщик задач</a></li>
+                          <li><a class="dropdown-item rounded-2" href="#">В разработке</a></li>
+                          <li><a class="dropdown-item rounded-2" href="#">В разработке</a></li>
+                      </ul>
+                  </li>
+              {% else %}
+                  <li><a href="/" class="nav-link px-2 link-secondary">Главная</a></li>
+                  <li><a href="/about" class="nav-link px-2">О сайте</a></li>
+              {% endif %}
+          </ul>
+
+          <div class="col-md-3 text-end">
+            {% if session.user_id %}
+                <a href="{{ url_for('auth.account') }}" class="btn btn-outline-primary me-2">Аккаунт</a>
+                <a href="{{ url_for('auth.logout') }}" class="btn btn-danger">Выйти</a>
+            {% else %}
+                <a href="{{ url_for('auth.login') }}" class="btn btn-outline-primary me-2">Войти</a>
+                <a href="{{ url_for('auth.register') }}" class="btn btn-primary">Регистрация</a>
+            {% endif %}
+          </div>
+        </header>
+        {% if breadcrumbs %}
+        <div>
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb breadcrumb-chevron bg-body-tertiary rounded-3">
+                <li class="breadcrumb-item">
+                  <a class="link-body-emphasis" href="{{ url_for('views.index') }}">
+                    <svg id='Home_24' width='24' height='24' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'><rect width='24' height='24' stroke='none' fill='#000000' opacity='0'/>
+                    <g transform="matrix(0.91 0 0 0.91 12 12)" >
+                    <path style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;" transform=" translate(-12, -11.55)" d="M 12 2.0996094 L 1 12 L 4 12 L 4 21 L 10 21 L 10 14 L 14 14 L 14 21 L 20 21 L 20 12 L 23 12 L 12 2.0996094 z" stroke-linecap="round" />
+                    </g>
+                    </svg>
+                    <span class="visually-hidden">Home</span>
+                  </a>
+                </li>
+                {% for key, value in breadcrumbs.items() %}
+                    <li class="breadcrumb-item">
+                      <a class="link-body-emphasis fw-semibold text-decoration-none" href="{{ value }}">{{ key }}</a>
+                    </li>
+                {% endfor %}
+              </ol>
+            </nav>
+        </div>
+    </div>
+    {% endif %}
+    {% block body %}{% endblock %}
+    <div class="container">
+      <footer class="py-3 my-4">
+        <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+          <li class="nav-item"><a href="/" class="nav-link px-2 text-body-secondary">Главная</a></li>
+          <li class="nav-item"><a href="/about" class="nav-link px-2 text-body-secondary">О сайте</a></li>
+        </ul>
+        <p class="text-center text-body-secondary">© 2023 Developed by Mikhail Chupakhin</p>
+      </footer>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap/bootstrap.bundle.js') }}"></script>
+</body>
+</html>

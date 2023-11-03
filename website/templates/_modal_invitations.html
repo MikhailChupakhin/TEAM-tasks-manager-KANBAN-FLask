@@ -1,0 +1,30 @@
+<div class="modal fade" id="ModalInvitations" tabindex="-1" aria-labelledby="ModalInvitationsTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalInvitationsTitle">Приглашения</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+      </div>
+      <div class="modal-body">
+        <ul id="invitation-list"></ul>
+          {% if pending_invitations %}
+          {% for invitation in pending_invitations %}
+            <li data-invitation-id="{{ invitation.id }}">
+              Вы приглашены в проект: "{{ invitation.project.name }}"
+              <form method="post" action="{{ url_for('task_manager.accept_invitation', invitation_id=invitation.id) }}">
+                <button class="btn btn-primary accept-invitation" type="button" data-invitation-id="{{ invitation.id }}">Принять</button>
+                <button class="btn btn-secondary reject-invitation" type="button" data-invitation-id="{{ invitation.id }}">Отклонить</button>
+              </form>
+            </li>
+          {% endfor %}
+          {% else %}
+              <p>Новых приглашений нет</p>
+          {% endif %}
+        </ul>
+      </div>
+      <div class="modal-footer">
+           <button type="button" data-bs-dismiss="modal" class="btn btn-secondary" id="closeModalButton">Закрыть</button>
+      </div>
+    </div>
+  </div>
+</div>

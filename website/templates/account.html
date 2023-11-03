@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Аккаунт
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>Мой аккаунт</h1>
+    <p>Имя пользователя: {{ user.username }}</p>
+    <p>Email: {{ user.email }}</p>
+    <p>Дата создания аккаунта: {{ user.created_at.strftime("%Y-%m-%d %H:%M:%S") }}</p>
+</div>
+{% endblock %}

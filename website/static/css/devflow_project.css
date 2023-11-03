@@ -1,0 +1,106 @@
+.container-main {
+  margin-left: 10px;
+}
+.card-task {
+    border: 0.375px solid #333;
+    border-radius: 3px;
+    background-color: #eee;
+    margin: 3px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px;
+}
+.card-task.with-border {
+    position: relative;
+}
+.icon-container {
+    margin-left: auto;
+}
+.task-name {
+    font-size: 12px;
+}
+
+.card-task.with-border::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 5px;
+}
+.card-task.with-border.status-A::before {
+    background-color: #9370DB;
+}
+.card-task.with-border.status-NSI::before {
+    background-color: #FFD700;
+}
+.card-task.with-border.status-IP::before {
+    background-color: #0000FF;
+}
+.card-task.with-border.status-DT::before {
+    background-color: #8B4513;
+}
+.card-task.with-border.status-T::before {
+    background-color: #0000FF;
+}
+.card-task.with-border.status-TO::before {
+    background-color: #008000;
+}
+.card-task.with-border.status-TF::before {
+    background-color: #FF0000;
+}
+.card-task.with-border.status-D::before {
+    background-color: #8B4513;
+}
+.card-task.with-border.status-DF::before {
+    background-color: #FF0000;
+}
+.card-task.with-border.status-DO::before {
+    background-color: #008000;
+}
+.card-task.with-border.status-S::before {
+    background-color: #0000FF;
+}
+.status-container {
+    margin: 5px;
+}
+
+.status {
+    margin-right: 5px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #999;
+}
+#mydiv {
+    position: absolute;
+    z-index: 9;
+    background-color: #f1f1f1;
+    border: 1px solid #d3d3d3;
+    text-align: center;
+}
+
+#mydivheader {
+    padding: 10px;
+    cursor: move;
+    z-index: 10;
+    background-color: #2196F3;
+    color: #fff;
+}
+.status-change-zone {
+    border: 1px solid #d3d3d3;
+    margin-bottom: 2px;
+}
+.col-md-2 {
+    border-left: 0.01px solid #000; /* Левая граница */
+}
+.status-change-zone {
+    font-size: 10px;
+}
+
+.comment-count {
+    font-size: 8px;
+}
+
+
+

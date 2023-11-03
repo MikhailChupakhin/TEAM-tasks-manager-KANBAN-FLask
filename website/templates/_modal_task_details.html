@@ -1,0 +1,21 @@
+<div class="modal fade" id="taskDetailsModal" tabindex="-1" aria-labelledby="taskDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="taskDetailsModalLabel">Детали задачи</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            </div>
+            <div class="modal-body">
+                <p id="taskDetailsContent"></p>
+                <div id="commentSection" style="display: none;">
+                    <textarea id="commentText" class="form-control" rows="3" placeholder="Введите комментарий"></textarea>
+                    <button id="sendComment" class="btn btn-primary">Отправить</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="commentButton" data-project-id="{{ project.id }}">Комментировать</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>

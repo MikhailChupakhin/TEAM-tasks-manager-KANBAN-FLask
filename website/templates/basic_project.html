@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Проект: {{ project.name }}
+{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/basic_project.css') }}">
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-9">
+            <h1>{{ project.name }}</h1>
+        </div>
+        <div class="col-md-3">
+            <div class="dropdown text-end">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Меню проекта
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#" id="openProjectMembersModalButton">Участники</a>
+                    <a class="dropdown-item" href="#" id="createInviteModalButton" data-project-id="{{ project.id }}">Пригласить</a>
+                    <a class="dropdown-item" href="{{ url_for('task_manager.log', project_id=project.id) }}">Журнал</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Название задачи</th>
+            <th>Дедлайн</th>
+            <th>Детали</th>
+            <th>Статус</th>
+            <th>Исполнитель</th>
+            <th>Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for task in tasks %}
+        <tr>
+            <td>{{ task.name }}</td>
+            <td>{{ task.deadline.strftime('%d-%m-%Y') }}</td>
+            <td>
+                <button class="btn btn-link description-button" data-description="{{ task.id }}"
+                        data-project-id="{{ project.id }}">Детали
+                </button>
+                <div class="task-description" style="display: none" id="task-description-{{ task.id }}">
+                    {{ task.description }}
+                </div>
+            </td>
+            <td>
+                <div class="dropdown">
+                    <button class="btn btn-secondary
+                        {% if task.status == 'Ожидание' %}status-button-waiting
+                        {% elif task.status == 'Выполняется' %}status-button-progress
+                        {% elif task.status == 'Завершено' %}status-button-complete
+                        {% elif task.status == 'Отменено' %}status-button-canceled
+                        {% endif %}"
+                            type="button" id="statusDropdown-{{ task.id }}"
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{ task.status }}
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="statusDropdown-{{ task.id }}">
+                        <a class="dropdown-item status-change-button" href="#" data-status="Ожидание"
+                           data-project-id="{{ project.id }}" data-task-id="{{ task.id }}">Ожидание</a>
+                        <a class="dropdown-item status-change-button" href="#" data-status="Выполняется"
+                           data-project-id="{{ project.id }}" data-task-id="{{ task.id }}">Выполняется</a>
+                        <a class="dropdown-item status-change-button" href="#" data-status="Завершено"
+                           data-project-id="{{ project.id }}" data-task-id="{{ task.id }}">Завершено</a>
+                        <a class="dropdown-item status-change-button" href="#" data-status="Отменено"
+                           data-project-id="{{ project.id }}" data-task-id="{{ task.id }}">Отменено</a>
+                    </div>
+                </div>
+            </td>
+            {% if task.responsible %}
+            <td>{{ task.responsible.username }}</td>
+            {% else %}
+            <td><p>Не назначена</p></td>
+            {% endif %}
+            <td>
+                <button class="btn btn-danger" data-description="{{ task.id }}" id="dropdownTaskMenuButton"
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Действия
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownTaskMenuButton">
+                    <a class="dropdown-item" href="#" data-toggle="modal" id="editTaskModalButton"
+                       data-project-id="{{ project.id }}"
+                       data-task-id="{{ task.id }}"
+                       data-task-name="{{ task.name }}"
+                       data-task-description="{{ task.description }}"
+                       data-task-deadline="{{ task.deadline }}"
+                       data-task-responsible="{{ task.responsible.username }}">
+                        Редактировать
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#" onclick="confirmDelete()"
+                       data-project-id="{{ project.id }}"
+                       data-task-id="{{ task.id }}">
+                        Удалить
+                    </a>
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <label class="list-group-item d-flex gap-3 bg-light">
+        <span class="pt-1 form-checked-content">
+            <button class="btn btn-primary rounded-pill px-3" type="button"
+                    id="createTaskModalButton">Добавить задачу</button>
+        </span>
+    </label>
+    {% include '_modal_task_details.html' %}
+    {% include '_modal_project_members.html' %}
+    {% include '_modal_create_invite.html' %}
+    {% include '_modal_create_task.html' %}
+    {% include '_modal_edit_task.html' %}
+    <script src="{{ url_for('static', filename='js/basic_project_functionals.js') }}"></script>
+</div>
+{% endblock %}
